@@ -1,22 +1,7 @@
-FROM bellsoft/liberica-openjdk-alpine:11
+FROM openjdk:11-jre-slim-buster
 
-ENV ACTIVEMQ_VERSION 5.17.0
-ENV ACTIVEMQ apache-activemq-$ACTIVEMQ_VERSION
-ENV ACTIVEMQ_HOME /opt/activemq
+COPY ./target/logger-1.jar /usr/src/logger/
 
-RUN apk add --update curl && \
-    rm -rf /var/cache/apk/* && \
-    mkdir -p /opt && \
-    curl -s -S https://archive.apache.org/dist/activemq/$ACTIVEMQ_VERSION/$ACTIVEMQ-bin.tar.gz | tar -xvz -C /opt
-RUN mv /opt/$ACTIVEMQ $ACTIVEMQ_HOME && \
-    addgroup -S activemq && \
-    adduser -S -H -G activemq -h $ACTIVEMQ_HOME activemq && \
-    chown -R activemq:activemq $ACTIVEMQ_HOME && \
-    chown -h activemq:activemq $ACTIVEMQ_HOME
+WORKDIR /usr/src/logger
 
-EXPOSE 1883 5672 8161 61613 61614 61616
-
-USER activemq
-WORKDIR $ACTIVEMQ_HOME
-
-CMD ["/bin/sh", "-c", "bin/activemq console"]
+ENTRYPOINT ["java","-jar","logger-1.jar"]
