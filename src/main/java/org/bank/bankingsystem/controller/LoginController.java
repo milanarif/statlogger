@@ -18,7 +18,7 @@ public class LoginController {
         this.loginService = loginService;
     }
 
-    @GetMapping("/all")
+    @GetMapping
     public ResponseEntity<Iterable<LoginEntity>> findAll() {
         Iterable<LoginEntity> loginEntities = loginService.findAll();
         return (new ResponseEntity<>(loginEntities, HttpStatus.OK));
