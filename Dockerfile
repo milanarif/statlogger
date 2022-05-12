@@ -6,12 +6,6 @@ RUN mvn -f /home/app/pom.xml clean package
 
 # PACKAGE STAGE
 FROM openjdk:11-jre-slim-buster
-
-
 COPY --from=build /home/app/target/logger-1.jar /usr/src/logger/
-
-# COPY ./target/logger-1.jar /usr/src/logger/
-
 WORKDIR /usr/src/logger
-
 ENTRYPOINT ["java","-jar","logger-1.jar"]
